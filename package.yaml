@@ -1,6 +1,6 @@
 name:                symbiotic
 version:             0.0.0
-github:              "athanclark/symbiotic"
+github:              "symbiotic-data/symbiotic-haskell"
 license:             BSD3
 author:              "Athan Clark"
 maintainer:          "athan.clark@gmail.com"
@@ -11,16 +11,18 @@ extra-source-files:
 - ChangeLog.md
 
 # Metadata used when publishing your package
-synopsis:            Interopable data types
+synopsis:            Interoperable data types
 category:            Data
 
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/athanclark/symbiotic#readme>
+description:         Please see the README on GitHub at <https://github.com/symbiotic-data/symbiotic-haskell#readme>
 
 dependencies:
 - base >= 4.7 && < 5
+- aeson
+- cereal
 
 library:
   source-dirs: src
