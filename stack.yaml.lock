@@ -3,7 +3,21 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: unfoldable-0.9.6@sha256:8b90f8e957fa3308c65733b1085272f188063d858f12da023e475d2922433d23,1831
+    pantry-tree:
+      size: 696
+      sha256: 123b485195c2962fb07b2eb32f3b557c58a8c541b95008b447015caa38aeeb9c
+  original:
+    hackage: unfoldable-0.9.6
+- completed:
+    hackage: QuickCheck-2.12.6.1@sha256:ce974f511174fbc3102bccb13d6d45781d327194f0311790b9f8db6a7cb1bab3,6336
+    pantry-tree:
+      size: 2046
+      sha256: 1b9bf780a91762f07a63698d656234de0b68f5c8de760cc90153c01888730eb5
+  original:
+    hackage: QuickCheck-2.12.6.1
 snapshots:
 - completed:
     size: 524130
