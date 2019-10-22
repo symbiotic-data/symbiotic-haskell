@@ -23,12 +23,37 @@ dependencies:
 - base >= 4.7 && < 5
 - aeson
 - cereal
-- integer-gmp
 - unfoldable
 - vector
 
 library:
   source-dirs: src
+  generated-exposed-modules:
+  - Paths_symbiotic
+  exposed-modules:
+    - Data.Symbiotic.Primitives.Unit
+    - Data.Symbiotic.Primitives.Boolean
+    - Data.Symbiotic.Primitives.Floating.Float32.BE
+    - Data.Symbiotic.Primitives.Floating.Float32.LE
+    - Data.Symbiotic.Primitives.Floating.Float64.BE
+    - Data.Symbiotic.Primitives.Floating.Float64.LE
+    - Data.Symbiotic.Primitives.Integral.Int8.BE
+    - Data.Symbiotic.Primitives.Integral.Int8.LE
+    - Data.Symbiotic.Primitives.Integral.Int16.BE
+    - Data.Symbiotic.Primitives.Integral.Int16.LE
+    - Data.Symbiotic.Primitives.Integral.Int32.BE
+    - Data.Symbiotic.Primitives.Integral.Int32.LE
+    - Data.Symbiotic.Primitives.Integral.Int64.BE
+    - Data.Symbiotic.Primitives.Integral.Int64.LE
+    - Data.Symbiotic.Primitives.Integral.Uint8.BE
+    - Data.Symbiotic.Primitives.Integral.Uint8.LE
+    - Data.Symbiotic.Primitives.Integral.Uint16.BE
+    - Data.Symbiotic.Primitives.Integral.Uint16.LE
+    - Data.Symbiotic.Primitives.Integral.Uint32.BE
+    - Data.Symbiotic.Primitives.Integral.Uint32.LE
+    - Data.Symbiotic.Primitives.Integral.Uint64.BE
+    - Data.Symbiotic.Primitives.Integral.Uint64.LE
+    - Data.Symbiotic.Primitives.Integral.Integer8
 
 tests:
   symbiotic-test:
