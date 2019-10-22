@@ -50,6 +50,13 @@ library:
     - Data.Symbiotic.Primitives.Integral.Uint64.BE
     - Data.Symbiotic.Primitives.Integral.Uint64.LE
     - Data.Symbiotic.Primitives.Integral.Integer8
+    - Data.Symbiotic.Primitives.Integral.Integer16
+    - Data.Symbiotic.Primitives.Integral.Integer32
+    - Data.Symbiotic.Primitives.Integral.Integer64
+    - Data.Symbiotic.PrimitiveComposites.Collections.Vector8
+    - Data.Symbiotic.PrimitiveComposites.Collections.Vector16
+    - Data.Symbiotic.PrimitiveComposites.Collections.Vector32
+    - Data.Symbiotic.PrimitiveComposites.Collections.Vector64
 
 tests:
   symbiotic-test:
