@@ -25,6 +25,7 @@ dependencies:
 - cereal
 - containers
 - text
+- time
 - unfoldable
 - unordered-containers
 - vector
@@ -73,6 +74,11 @@ library:
     - Data.Symbiotic.SophisticatedComposites.Mappings.StringMap16
     - Data.Symbiotic.SophisticatedComposites.Mappings.StringMap32
     - Data.Symbiotic.SophisticatedComposites.Mappings.StringMap64
+    - Data.Symbiotic.SophisticatedComposites.Mappings.Map8
+    - Data.Symbiotic.SophisticatedComposites.Mappings.Map16
+    - Data.Symbiotic.SophisticatedComposites.Mappings.Map32
+    - Data.Symbiotic.SophisticatedComposites.Mappings.Map64
+    - Data.Symbiotic.Casual.Chronological.Date
 
 tests:
   symbiotic-test:
