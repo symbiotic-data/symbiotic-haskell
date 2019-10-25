@@ -9,10 +9,12 @@ import Data.Symbiotic.PrimitiveComposites.Collections.Vector32 (Vector32, makeVe
 
 import GHC.Generics (Generic)
 import Data.String (IsString (..))
+import Data.Aeson (ToJSON, FromJSON)
+import Data.Serialize (Serialize)
 
 
 newtype String32 = String32 (Vector32 [] Char)
-  deriving (Generic, Show, Eq, Ord, Semigroup, Monoid)
+  deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, ToJSON, FromJSON, Serialize)
 
 instance IsString String32 where
   fromString s = case makeVector32 s of

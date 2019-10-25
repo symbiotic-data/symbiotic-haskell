@@ -9,10 +9,12 @@ import Data.Symbiotic.PrimitiveComposites.Collections.Vector64 (Vector64, makeVe
 
 import GHC.Generics (Generic)
 import Data.String (IsString (..))
+import Data.Aeson (ToJSON, FromJSON)
+import Data.Serialize (Serialize)
 
 
 newtype String64 = String64 (Vector64 [] Char)
-  deriving (Generic, Show, Eq, Ord, Semigroup, Monoid)
+  deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, ToJSON, FromJSON, Serialize)
 
 instance IsString String64 where
   fromString s = case makeVector64 s of

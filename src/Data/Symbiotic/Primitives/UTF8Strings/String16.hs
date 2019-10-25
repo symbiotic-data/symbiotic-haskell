@@ -9,10 +9,12 @@ import Data.Symbiotic.PrimitiveComposites.Collections.Vector16 (Vector16, makeVe
 
 import GHC.Generics (Generic)
 import Data.String (IsString (..))
+import Data.Aeson (ToJSON, FromJSON)
+import Data.Serialize (Serialize)
 
 
 newtype String16 = String16 (Vector16 [] Char)
-  deriving (Generic, Show, Eq, Ord, Semigroup, Monoid)
+  deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, ToJSON, FromJSON, Serialize)
 
 instance IsString String16 where
   fromString s = case makeVector16 s of
