@@ -24,6 +24,7 @@ dependencies:
 - aeson
 - cereal
 - containers
+- ip
 - text
 - time
 - unfoldable
@@ -81,6 +82,8 @@ library:
     - Data.Symbiotic.Casual.Chronological.Date
     - Data.Symbiotic.Casual.Chronological.Time
     - Data.Symbiotic.Casual.Chronological.DateTime
+    - Data.Symbiotic.Casual.URILike.IPV4
+    - Data.Symbiotic.Casual.URILike.IPV6
 
 tests:
   symbiotic-test:
