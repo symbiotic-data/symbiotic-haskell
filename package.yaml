@@ -80,6 +80,7 @@ library:
     - Data.Symbiotic.SophisticatedComposites.Mappings.Map64
     - Data.Symbiotic.Casual.Chronological.Date
     - Data.Symbiotic.Casual.Chronological.Time
+    - Data.Symbiotic.Casual.Chronological.DateTime
 
 tests:
   symbiotic-test:

@@ -2,7 +2,9 @@
     DeriveGeneric
   #-}
 
-module Data.Symbiotic.Casual.Chronological.Time where
+module Data.Symbiotic.Casual.Chronological.Time
+  ( Time, timeOfDay, timeZone, makeTime
+  ) where
 
 import Data.Time.LocalTime (TimeOfDay (..), TimeZone (..), makeTimeOfDayValid)
 import Data.Time.Format (formatTime, parseTimeM, defaultTimeLocale)
@@ -14,7 +16,7 @@ import Data.Serialize.Get (getWord8, getInt8, getWord16be)
 import qualified Data.Text as T
 import Data.Fixed (Fixed (..))
 import Data.Int (Int8)
-import Data.Word (Word8, Word16)
+import Data.Word (Word8)
 import Text.Read (readMaybe)
 import GHC.Generics (Generic)
 
@@ -24,6 +26,13 @@ data Time = Time
   , timeZone  :: TimeZone
   }
   deriving (Generic, Eq, Ord, Show)
+
+-- | Haskell makes use of picoseconds, which are of no use to us in this library
+makeTime :: TimeOfDay -> TimeZone -> Time
+makeTime (TimeOfDay hour minute (MkFixed pico)) =
+  Time (TimeOfDay hour minute (MkFixed unMili))
+  where
+    unMili = (pico `div` 1000000000) * 1000000000
 
 instance ToJSON Time where
   toJSON (Time timeOfDay'@(TimeOfDay _ _ (MkFixed pico)) timeZone') = String $
@@ -64,7 +73,7 @@ instance FromJSON Time where
       fail' = typeMismatch "Time" json
 
 instance Serialize Time where
-  put (Time timeOfDay@(TimeOfDay hour minute (MkFixed pico)) timeZone@(TimeZone mins _ _)) =
+  put (Time (TimeOfDay hour minute (MkFixed pico)) (TimeZone mins _ _)) =
     let tzHour :: Int8
         tzHour = fromIntegral (mins `div` 60)
         tzMin :: Word8
