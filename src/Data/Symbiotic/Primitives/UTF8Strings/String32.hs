@@ -13,7 +13,7 @@ import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize)
 
 
-newtype String32 = String32 (Vector32 [] Char)
+newtype String32 = String32 {getString32 :: Vector32 [] Char}
   deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, ToJSON, FromJSON, Serialize)
 
 instance IsString String32 where

@@ -24,7 +24,10 @@ dependencies:
 - aeson
 - cereal
 - containers
+- emailaddress
 - ip
+- network-uri
+- scientific
 - text
 - time
 - unfoldable
@@ -42,6 +45,7 @@ library:
     - Data.Symbiotic.Primitives.Floating.Float32.LE
     - Data.Symbiotic.Primitives.Floating.Float64.BE
     - Data.Symbiotic.Primitives.Floating.Float64.LE
+    - Data.Symbiotic.Primitives.Floating.Scientific
     - Data.Symbiotic.Primitives.Integral.Int16.BE
     - Data.Symbiotic.Primitives.Integral.Int16.LE
     - Data.Symbiotic.Primitives.Integral.Int32.BE
@@ -84,6 +88,8 @@ library:
     - Data.Symbiotic.Casual.Chronological.DateTime
     - Data.Symbiotic.Casual.URILike.IPV4
     - Data.Symbiotic.Casual.URILike.IPV6
+    - Data.Symbiotic.Casual.URILike.URI
+    - Data.Symbiotic.Casual.URILike.EmailAddress
 
 tests:
   symbiotic-test:

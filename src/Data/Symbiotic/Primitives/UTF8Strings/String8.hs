@@ -13,7 +13,7 @@ import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize)
 
 
-newtype String8 = String8 (Vector8 [] Char)
+newtype String8 = String8 {getString8 :: Vector8 [] Char}
   deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, ToJSON, FromJSON, Serialize)
 
 instance IsString String8 where

@@ -18,6 +18,13 @@ packages:
       sha256: 1b9bf780a91762f07a63698d656234de0b68f5c8de760cc90153c01888730eb5
   original:
     hackage: QuickCheck-2.12.6.1
+- completed:
+    hackage: emailaddress-0.2.0.0@sha256:2c6c10bca535ab6ffff8508f0862a1a729bd7b575b9f1b9f903624da7d1dc0fd,1754
+    pantry-tree:
+      size: 451
+      sha256: 606a6d8718a195de41fbbf8da8ee67fd327ffd9ca175a1782eb2a33d24d1d293
+  original:
+    hackage: emailaddress-0.2.0.0
 snapshots:
 - completed:
     size: 524130
