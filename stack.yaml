@@ -36,8 +36,11 @@ packages:
 #
 extra-deps:
   - unfoldable-0.9.6
-  - QuickCheck-2.12.6.1
+  - QuickCheck-2.13.2
   - emailaddress-0.2.0.0
+  - tries-0.0.6
+  - rose-trees-0.0.4.4
+  - sets-0.0.6.2
 # - acme-missiles-0.3
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a

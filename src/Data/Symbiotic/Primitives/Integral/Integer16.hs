@@ -17,6 +17,7 @@ import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize (..))
 import Data.Serialize.Get (Get, getWord16be, getWord8)
 import Data.Serialize.Put (putWord16be, putWord8)
+import qualified Data.Vector as V
 import Control.Monad (void)
 
 newtype Integer16 = Integer16 {getInteger16 :: Integer}
@@ -51,7 +52,7 @@ instance Serialize Integer16 where
         sign  <- getWord8
         bytes <- getVector16 <$> get     -- NOTE point of interest
         let v :: Integer16
-            v = Integer16 (roll bytes)
+            v = Integer16 (roll (V.toList bytes))
         return $! if sign == (1 :: Word8) then v else - v
 
 makeInteger16 :: Integer -> Maybe Integer16

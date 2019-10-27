@@ -12,8 +12,6 @@ import GHC.Generics (Generic)
 import Data.Aeson (ToJSON (..), FromJSON (..), Value (Array), fromJSON, Result (Error, Success))
 import Data.Aeson.Types (typeMismatch)
 import qualified Data.Vector as V
-import Data.Unfolder (Unfolder)
-import Data.Unfoldable (Unfoldable (..), unfoldr, fromList)
 import Data.Serialize (Serialize (..))
 import Data.Serialize.Get (getWord64be)
 import Data.Serialize.Put (putWord64be)
@@ -22,45 +20,34 @@ import Control.Applicative (Alternative)
 import Control.Monad (void, replicateM)
 
 
-newtype Vector64 f a = Vector64 {getVector64 :: f a}
-  deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, Functor, Applicative, Alternative, Monad, Foldable, Traversable, Unfolder)
-
-instance Unfoldable f => Unfoldable (Vector64 f) where
-  unfold x = Vector64 <$> unfold x
+newtype Vector64 a = Vector64 {getVector64 :: V.Vector a}
+  deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, Functor, Applicative, Alternative, Monad, Foldable, Traversable)
 
 
-makeVector64 :: Foldable f => f a -> Maybe (Vector64 f a)
+makeVector64 :: V.Vector a -> Maybe (Vector64 a)
 makeVector64 x
-  | length x < hi = Just (Vector64 x)
+  | V.length x < hi = Just (Vector64 x)
   | otherwise = Nothing
   where
     hi :: Int
     hi = (2 :: Int) ^ (64 :: Int)
 
-instance (ToJSON a, Foldable f) => ToJSON (Vector64 f a) where
-  toJSON (Vector64 x) = Array (foldr (V.cons . toJSON) V.empty x)
+instance (ToJSON a) => ToJSON (Vector64 a) where
+  toJSON (Vector64 x) = Array (V.map toJSON x)
 
-instance (FromJSON a, Unfoldable f) => FromJSON (Vector64 f a) where
+instance (FromJSON a) => FromJSON (Vector64 a) where
   parseJSON json = case json of
-    Array x -> case unfoldr go x of
+    Array x -> case makeVector64 x of
       Nothing -> fail'
-      Just y -> pure y
+      Just y -> traverse parseJSON y
     _ -> fail'
     where
       fail' = typeMismatch "Vector64" json
-      go v = case v V.!? 0 of
-        Nothing -> Nothing
-        Just head' -> case fromJSON head' of
-          Error _ -> Nothing
-          Success y -> Just (y, V.tail v)
 
-instance (Serialize a, Traversable f, Unfoldable f) => Serialize (Vector64 f a) where
+instance (Serialize a) => Serialize (Vector64 a) where
   put (Vector64 x) = do
     putWord64be (fromIntegral (length x))
     void (traverse put x)
   get = do
     l <- getWord64be
-    xs <- replicateM (fromIntegral l) get
-    case fromList xs of
-      Nothing -> fail "Vector64"
-      Just y -> pure (Vector64 y)
+    Vector64 <$> V.replicateM (fromIntegral l) get

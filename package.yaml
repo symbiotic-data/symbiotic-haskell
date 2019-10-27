@@ -25,12 +25,13 @@ dependencies:
 - cereal
 - containers
 - emailaddress
+- hashable
 - ip
 - network-uri
 - scientific
 - text
 - time
-- unfoldable
+- tries
 - unordered-containers
 - vector
 

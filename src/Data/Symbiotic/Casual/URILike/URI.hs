@@ -4,8 +4,7 @@
 
 module Data.Symbiotic.Casual.URILike.URI where
 
-import Data.Symbiotic.PrimitiveComposites.Collections.Vector32 (Vector32, getVector32, makeVector32)
-import Data.Symbiotic.Primitives.UTF8Strings.String32 (String32 (..))
+import Data.Symbiotic.Primitives.UTF8Strings.String32 (getString32, makeString32)
 
 import qualified Network.URI as URI
 import Data.Aeson (ToJSON (..), FromJSON (..), Value (String))
@@ -31,11 +30,11 @@ instance FromJSON URI where
       fail' = typeMismatch "URI" json
 
 instance Serialize URI where
-  put (URI u) = case makeVector32 (URI.uriToString id u "") of
+  put (URI u) = case makeString32 (T.pack (URI.uriToString id u "")) of
     Nothing -> error "Vector32 can't be made from URI string"
-    Just x -> put (String32 x)
+    Just x -> put x
   get = do
-    s <- getVector32 . getString32 <$> get
-    case URI.parseURI s of
+    s <- getString32 <$> get
+    case URI.parseURI (T.unpack s) of
       Nothing -> fail "URI"
       Just u -> pure (URI u)

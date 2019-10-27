@@ -12,12 +12,12 @@ packages:
   original:
     hackage: unfoldable-0.9.6
 - completed:
-    hackage: QuickCheck-2.12.6.1@sha256:ce974f511174fbc3102bccb13d6d45781d327194f0311790b9f8db6a7cb1bab3,6336
+    hackage: QuickCheck-2.13.2@sha256:ad4e5adbd1c9dc0221a44307b992cb040c515f31095182e47aa7e974bc461df1,6952
     pantry-tree:
-      size: 2046
-      sha256: 1b9bf780a91762f07a63698d656234de0b68f5c8de760cc90153c01888730eb5
+      size: 2202
+      sha256: f79eee2f6a00b2c649f993a7b358827702373cbc931ced55ebdfb59625540403
   original:
-    hackage: QuickCheck-2.12.6.1
+    hackage: QuickCheck-2.13.2
 - completed:
     hackage: emailaddress-0.2.0.0@sha256:2c6c10bca535ab6ffff8508f0862a1a729bd7b575b9f1b9f903624da7d1dc0fd,1754
     pantry-tree:
@@ -25,6 +25,27 @@ packages:
       sha256: 606a6d8718a195de41fbbf8da8ee67fd327ffd9ca175a1782eb2a33d24d1d293
   original:
     hackage: emailaddress-0.2.0.0
+- completed:
+    hackage: tries-0.0.6@sha256:9288f14f3dfe73ab6eb7ac581f17f2931957e2ae9f5345a90518aa159ce83737,3087
+    pantry-tree:
+      size: 920
+      sha256: 92f7c7a80954826bc0cc1b1b7b5617b481eaa58ba08d92fcb787a67921aa22ca
+  original:
+    hackage: tries-0.0.6
+- completed:
+    hackage: rose-trees-0.0.4.4@sha256:602b2ed25f1408605132ab00295539bfe93d47ebd1e594e4c44f7389d53dcd74,3392
+    pantry-tree:
+      size: 974
+      sha256: e9d0d6dc33b07a6ec2d495b3b05d2fbb5e41fb9514a5a4b42049fbfff51ffb14
+  original:
+    hackage: rose-trees-0.0.4.4
+- completed:
+    hackage: sets-0.0.6.2@sha256:59c7d736a9d8044b9eaf4d56f318111ef471eb16b263be974b549d7a4d106e59,3005
+    pantry-tree:
+      size: 1427
+      sha256: 2679bd6c5de751834449a65d554e0230e851d171037b3bdf4cf7043150196abd
+  original:
+    hackage: sets-0.0.6.2
 snapshots:
 - completed:
     size: 524130

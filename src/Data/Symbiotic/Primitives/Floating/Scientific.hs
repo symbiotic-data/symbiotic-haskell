@@ -5,11 +5,10 @@
 
 module Data.Symbiotic.Primitives.Floating.Scientific where
 
-import Data.Symbiotic.PrimitiveComposites.Collections.Vector32 (Vector32, getVector32, makeVector32)
-import Data.Symbiotic.Primitives.UTF8Strings.String32 (String32 (..))
+import Data.Symbiotic.Primitives.UTF8Strings.String32 (getString32, makeString32)
 
 import qualified Data.Scientific as Sci
-import Data.Aeson (ToJSON (..), FromJSON (..), Value (String), fromJSON)
+import Data.Aeson (ToJSON (..), FromJSON (..), Value (String))
 import Data.Aeson.Types (typeMismatch)
 import Data.Serialize (Serialize (..))
 import qualified Data.Text as T
@@ -61,11 +60,11 @@ instance FromJSON Scientific where
 instance Serialize Scientific where
   put x =
     let String y = toJSON x
-    in  case makeVector32 (T.unpack y) of
+    in  case makeString32 y of
           Nothing -> error "Vector32 can't be made from Scientific string"
-          Just z -> put (String32 z)
+          Just z -> put z
   get = do
-    s <- getVector32 . getString32 <$> get
-    case readMaybe s of
+    s <- getString32 <$> get
+    case readMaybe (T.unpack s) of
       Nothing -> fail "Scientific"
       Just x -> pure (Scientific x)

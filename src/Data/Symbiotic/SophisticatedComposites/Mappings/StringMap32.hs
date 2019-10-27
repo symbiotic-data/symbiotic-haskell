@@ -2,6 +2,9 @@
     DeriveGeneric
   , GeneralizedNewtypeDeriving
   , DeriveTraversable
+  , RankNTypes
+  , InstanceSigs
+  , ScopedTypeVariables
   #-}
 
 module Data.Symbiotic.SophisticatedComposites.Mappings.StringMap32 where
@@ -9,45 +12,37 @@ module Data.Symbiotic.SophisticatedComposites.Mappings.StringMap32 where
 import Data.Symbiotic.Primitives.UTF8Strings.String32 (String32 (..))
 import Data.Symbiotic.PrimitiveComposites.Collections.Vector32 (getVector32, makeVector32)
 
-import Data.Map (Map)
-import qualified Data.Map as Map
 import qualified Data.HashMap.Lazy as HM
 import qualified Data.Text as T
+import qualified Data.Vector as V
 import Data.Traversable (Traversable, traverse)
 import Data.Aeson (ToJSON (..), FromJSON (..), fromJSON, Value (Object), Result (..))
-import Data.Aeson.Types (typeMismatch)
+import Data.Aeson.Types (typeMismatch, Parser)
 import Data.Serialize (Serialize (..))
+import Unsafe.Coerce (unsafeCoerce)
 import GHC.Generics (Generic)
 
 
-newtype StringMap32 a = StringMap32 {getStringMap32 :: Map String32 a}
+newtype StringMap32 a = StringMap32 {getStringMap32 :: HM.HashMap String32 a}
   deriving (Generic, Eq, Ord, Show, Semigroup, Monoid, Functor, Foldable, Traversable)
 
 instance ToJSON a => ToJSON (StringMap32 a) where
-  toJSON (StringMap32 xs) = Object $
-    HM.fromList $
-      map (\(String32 k,v) -> (T.pack (getVector32 k), toJSON v)) $
-        Map.toList xs
+  toJSON (StringMap32 xs) = Object (unsafeCoerce (HM.map toJSON xs))
 
 instance FromJSON a => FromJSON (StringMap32 a) where
+  parseJSON :: forall a. FromJSON a => Value -> Parser (StringMap32 a)
   parseJSON json = case json of
     Object o -> do
-      let xs = HM.toList o
-          go (k,v) = do
-            v' <- parseJSON v
-            case makeVector32 (T.unpack k) of
-              Nothing -> fail'
-              Just k' -> pure (String32 k',v')
-      xs' <- traverse go xs
-      pure (StringMap32 (Map.fromList xs'))
+      xs <- traverse parseJSON o :: Parser (HM.HashMap T.Text a)
+      pure (StringMap32 (unsafeCoerce xs))
     _ -> fail'
     where
       fail' = typeMismatch "StringMap32" json
 
 instance Serialize a => Serialize (StringMap32 a) where
-  put (StringMap32 x) = case makeVector32 (Map.toList x) of
+  put (StringMap32 x) = case makeVector32 (V.fromList (HM.toList x)) of
     Nothing -> error "Serialize - can't make Vector32 out of StringMap32"
     Just y -> put y
   get = do
     x <- get
-    pure (StringMap32 (Map.fromList (getVector32 x)))
+    pure (StringMap32 (HM.fromList (V.toList (getVector32 x))))

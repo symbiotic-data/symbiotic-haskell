@@ -17,6 +17,7 @@ import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize (..))
 import Data.Serialize.Get (Get, getWord8)
 import Data.Serialize.Put (putWord8, putWord16be)
+import qualified Data.Vector as V
 import Control.Monad (void)
 
 newtype Natural16 = Natural16 {getNatural16 :: Natural}
@@ -43,7 +44,7 @@ instance Serialize Natural16 where
       0 -> fromIntegral <$> (get :: Get Word32)
       _ -> do
         bytes <- getVector16 <$> get      -- NOTE point of interest
-        return $! Natural16 (roll bytes)
+        return $! Natural16 (roll (V.toList bytes))
 
 makeNatural16 :: Natural -> Maybe Natural16
 makeNatural16 x

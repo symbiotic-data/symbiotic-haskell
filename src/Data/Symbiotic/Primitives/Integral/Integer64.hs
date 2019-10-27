@@ -17,6 +17,7 @@ import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize (..))
 import Data.Serialize.Get (Get, getWord64be, getWord8)
 import Data.Serialize.Put (putWord64be, putWord8)
+import qualified Data.Vector as V
 import Control.Monad (void)
 
 newtype Integer64 = Integer64 {getInteger64 :: Integer}
@@ -51,7 +52,7 @@ instance Serialize Integer64 where
         sign  <- getWord8
         bytes <- getVector64 <$> get     -- NOTE point of interest
         let v :: Integer64
-            v = Integer64 (roll bytes)
+            v = Integer64 (roll (V.toList bytes))
         return $! if sign == (1 :: Word8) then v else - v
 
 makeInteger64 :: Integer -> Maybe Integer64
