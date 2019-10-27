@@ -84,6 +84,7 @@ library:
     - Data.Symbiotic.SophisticatedComposites.Mappings.Map16
     - Data.Symbiotic.SophisticatedComposites.Mappings.Map32
     - Data.Symbiotic.SophisticatedComposites.Mappings.Map64
+    - Data.Symbiotic.SophisticatedComposites.Tries.Trie8
     - Data.Symbiotic.Casual.Chronological.Date
     - Data.Symbiotic.Casual.Chronological.Time
     - Data.Symbiotic.Casual.Chronological.DateTime
