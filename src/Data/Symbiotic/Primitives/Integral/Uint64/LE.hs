@@ -11,9 +11,10 @@ import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize (..))
 import Data.Serialize.Get (getWord64le)
 import Data.Serialize.Put (putWord64le)
+import Test.QuickCheck (Arbitrary)
 
 newtype Uint64LE = Uint64LE {getUint64LE :: Word64}
-  deriving (Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+  deriving (Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON, Arbitrary)
 
 instance Serialize Uint64LE where
   get = Uint64LE <$> getWord64le

@@ -10,9 +10,10 @@ import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize (..))
 import Data.Serialize.Get (getWord8)
 import Data.Serialize.Put (putWord8)
+import Test.QuickCheck (Arbitrary)
 
 newtype Boolean = Boolean {getBoolean :: Bool}
-  deriving (Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+  deriving (Generic, Eq, Show, Read, Ord, ToJSON, FromJSON, Arbitrary)
 
 instance Serialize Boolean where
   get = do

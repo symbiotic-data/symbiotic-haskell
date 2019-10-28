@@ -28,6 +28,7 @@ dependencies:
 - hashable
 - ip
 - network-uri
+- QuickCheck
 - scientific
 - text
 - time

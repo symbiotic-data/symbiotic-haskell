@@ -11,9 +11,10 @@ import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize (..))
 import Data.Serialize.Get (getInt32le)
 import Data.Serialize.Put (putInt32le)
+import Test.QuickCheck (Arbitrary)
 
 newtype Int32LE = Int32LE {getInt32LE :: Int32}
-  deriving (Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+  deriving (Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON, Arbitrary)
 
 instance Serialize Int32LE where
   get = Int32LE <$> getInt32le

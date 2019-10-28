@@ -1,6 +1,7 @@
 {-# LANGUAGE
     DeriveGeneric
   , OverloadedStrings
+  , GeneralizedNewtypeDeriving
   #-}
 
 module Data.Symbiotic.Primitives.Unit where
@@ -11,9 +12,10 @@ import Data.Aeson.Types (typeMismatch)
 import Data.Serialize (Serialize (..))
 import Data.Serialize.Get (getWord8)
 import Data.Serialize.Put (putWord8)
+import Test.QuickCheck (Arbitrary)
 
 newtype Unit = Unit {getUnit :: ()}
-  deriving (Generic, Eq, Show, Read, Ord)
+  deriving (Generic, Eq, Show, Read, Ord, Arbitrary)
 
 instance ToJSON Unit where
   toJSON _ = String ""

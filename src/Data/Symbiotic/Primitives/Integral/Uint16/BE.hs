@@ -11,9 +11,10 @@ import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize (..))
 import Data.Serialize.Get (getWord16be)
 import Data.Serialize.Put (putWord16be)
+import Test.QuickCheck (Arbitrary)
 
 newtype Uint16BE = Uint16BE {getUint16BE :: Word16}
-  deriving (Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+  deriving (Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON, Arbitrary)
 
 instance Serialize Uint16BE where
   get = Uint16BE <$> getWord16be
