@@ -16,10 +16,11 @@ import Data.Aeson (ToJSON (..), FromJSON (..), (.:), (.=), Value (Object), objec
 import Data.Aeson.Types (typeMismatch)
 import Control.Applicative ((<|>))
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary)
 
 
 newtype Either a b = Either (Prelude.Either a b)
-  deriving (Generic, Show, Eq, Ord, Semigroup, Functor, Applicative, Monad, Foldable, Traversable, Serialize)
+  deriving (Generic, Show, Eq, Ord, Semigroup, Functor, Applicative, Monad, Foldable, Traversable, Serialize, Arbitrary)
 
 instance (ToJSON a, ToJSON b) => ToJSON (Either a b) where
   toJSON (Either e) = case e of

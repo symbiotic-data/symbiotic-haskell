@@ -14,10 +14,15 @@ import Data.Serialize.Put (putWord8, putByteString)
 import Data.Serialize.Get (getWord8, getByteString)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (atMost)
 
 
 newtype String8 = String8 {getString8 :: T.Text}
   deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, ToJSON, FromJSON, Hashable)
+
+instance Arbitrary String8 where
+  arbitrary = String8 . T.pack <$> atMost ((2 :: Int) ^ (8 :: Int))
 
 makeString8 :: T.Text -> Maybe String8
 makeString8 t

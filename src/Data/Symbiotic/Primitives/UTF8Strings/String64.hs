@@ -14,10 +14,15 @@ import Data.Serialize.Put (putWord64be, putByteString)
 import Data.Serialize.Get (getWord64be, getByteString)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (atMost)
 
 
 newtype String64 = String64 {getString64 :: T.Text}
   deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, ToJSON, FromJSON, Hashable)
+
+instance Arbitrary String64 where
+  arbitrary = String64 . T.pack <$> atMost ((2 :: Int) ^ (64 :: Int))
 
 makeString64 :: T.Text -> Maybe String64
 makeString64 t

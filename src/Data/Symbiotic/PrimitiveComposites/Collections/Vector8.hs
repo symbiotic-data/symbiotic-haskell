@@ -17,11 +17,16 @@ import Data.Serialize.Get (getWord8)
 import Data.Serialize.Put (putWord8)
 import Data.Traversable (Traversable (traverse))
 import Control.Applicative (Alternative)
-import Control.Monad (void, replicateM)
+import Control.Monad (void)
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (atMost)
 
 
 newtype Vector8 a = Vector8 {getVector8 :: V.Vector a}
   deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, Functor, Applicative, Alternative, Monad, Foldable, Traversable)
+
+instance Arbitrary a => Arbitrary (Vector8 a) where
+  arbitrary = Vector8 . V.fromList <$> atMost ((2 :: Int) ^ (8 :: Int))
 
 
 makeVector8 :: V.Vector a -> Maybe (Vector8 a)

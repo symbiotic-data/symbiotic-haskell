@@ -17,11 +17,16 @@ import Data.Serialize.Get (getWord64be)
 import Data.Serialize.Put (putWord64be)
 import Data.Traversable (Traversable (traverse))
 import Control.Applicative (Alternative)
-import Control.Monad (void, replicateM)
+import Control.Monad (void)
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (atMost)
 
 
 newtype Vector64 a = Vector64 {getVector64 :: V.Vector a}
   deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, Functor, Applicative, Alternative, Monad, Foldable, Traversable)
+
+instance Arbitrary a => Arbitrary (Vector64 a) where
+  arbitrary = Vector64 . V.fromList <$> atMost ((2 :: Int) ^ (64 :: Int))
 
 
 makeVector64 :: V.Vector a -> Maybe (Vector64 a)

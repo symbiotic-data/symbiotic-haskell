@@ -29,6 +29,7 @@ dependencies:
 - ip
 - network-uri
 - QuickCheck
+- quickcheck-instances
 - scientific
 - text
 - time
@@ -42,7 +43,6 @@ library:
   - Paths_symbiotic
   exposed-modules:
     - Data.Symbiotic.Primitives.Unit
-    - Data.Symbiotic.Primitives.Boolean
     - Data.Symbiotic.Primitives.Floating.Float32.BE
     - Data.Symbiotic.Primitives.Floating.Float32.LE
     - Data.Symbiotic.Primitives.Floating.Float64.BE

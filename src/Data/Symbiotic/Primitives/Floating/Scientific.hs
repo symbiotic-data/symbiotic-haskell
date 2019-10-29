@@ -14,10 +14,12 @@ import Data.Serialize (Serialize (..))
 import qualified Data.Text as T
 import Text.Read (readMaybe)
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary)
+import Test.QuickCheck.Instances ()
 
 
 newtype Scientific = Scientific {getScientific :: Sci.Scientific}
-  deriving (Generic, Show, Eq, Ord, Num, Real, Fractional, RealFrac)
+  deriving (Generic, Show, Eq, Ord, Num, Real, Fractional, RealFrac, Arbitrary)
 
 instance ToJSON Scientific where
   toJSON (Scientific x) = String $ T.pack $
