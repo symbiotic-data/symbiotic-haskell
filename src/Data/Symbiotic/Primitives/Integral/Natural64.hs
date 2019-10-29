@@ -12,6 +12,7 @@ import Data.Symbiotic.PrimitiveComposites.Collections.Vector64 (Vector64 (getVec
 
 import GHC.Generics (Generic)
 import GHC.Natural (Natural)
+import Data.Bits (Bits)
 import Data.Word (Word64, Word32)
 import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize (..))
@@ -19,9 +20,14 @@ import Data.Serialize.Get (Get, getWord8)
 import Data.Serialize.Put (putWord8, putWord64be)
 import qualified Data.Vector as V
 import Control.Monad (void)
+import Test.QuickCheck.Arbitrary (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (maxNatural)
 
 newtype Natural64 = Natural64 {getNatural64 :: Natural}
-  deriving (Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+  deriving (Bits, Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+
+instance Arbitrary Natural64 where
+  arbitrary = maxNatural 64
 
 instance Serialize Natural64 where
   put n | n <= hi = do

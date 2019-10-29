@@ -11,6 +11,7 @@ import Data.Symbiotic.Primitives.Integral.Integer.Utils (nrBytes, unroll, roll)
 import Data.Symbiotic.PrimitiveComposites.Collections.Vector8 (Vector8 (getVector8))
 
 import GHC.Generics (Generic)
+import Data.Bits (Bits)
 import Data.Int (Int32)
 import Data.Word (Word8)
 import Data.Aeson (ToJSON, FromJSON)
@@ -19,9 +20,14 @@ import Data.Serialize.Get (Get, getWord8)
 import Data.Serialize.Put (putWord8)
 import qualified Data.Vector as V
 import Control.Monad (void)
+import Test.QuickCheck.Arbitrary (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (maxInteger)
 
 newtype Integer8 = Integer8 {getInteger8 :: Integer}
-  deriving (Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+  deriving (Bits, Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+
+instance Arbitrary Integer8 where
+  arbitrary = maxInteger 8
 
 instance Serialize Integer8 where
   put n | n >= lo && n <= hi = do

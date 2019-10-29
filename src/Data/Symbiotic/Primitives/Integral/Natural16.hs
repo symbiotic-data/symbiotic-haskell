@@ -12,6 +12,7 @@ import Data.Symbiotic.PrimitiveComposites.Collections.Vector16 (Vector16 (getVec
 
 import GHC.Generics (Generic)
 import GHC.Natural (Natural)
+import Data.Bits (Bits)
 import Data.Word (Word16, Word32)
 import Data.Aeson (ToJSON, FromJSON)
 import Data.Serialize (Serialize (..))
@@ -19,9 +20,14 @@ import Data.Serialize.Get (Get, getWord8)
 import Data.Serialize.Put (putWord8, putWord16be)
 import qualified Data.Vector as V
 import Control.Monad (void)
+import Test.QuickCheck.Arbitrary (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (maxNatural)
 
 newtype Natural16 = Natural16 {getNatural16 :: Natural}
-  deriving (Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+  deriving (Bits, Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+
+instance Arbitrary Natural16 where
+  arbitrary = maxNatural 16
 
 instance Serialize Natural16 where
   put n | n <= hi = do

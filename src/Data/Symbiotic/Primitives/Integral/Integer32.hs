@@ -11,6 +11,7 @@ import Data.Symbiotic.Primitives.Integral.Integer.Utils (nrBytes, unroll, roll)
 import Data.Symbiotic.PrimitiveComposites.Collections.Vector32 (Vector32 (getVector32))
 
 import GHC.Generics (Generic)
+import Data.Bits (Bits)
 import Data.Int (Int32)
 import Data.Word (Word32, Word8)
 import Data.Aeson (ToJSON, FromJSON)
@@ -19,9 +20,14 @@ import Data.Serialize.Get (Get, getWord32be, getWord8)
 import Data.Serialize.Put (putWord32be, putWord8)
 import qualified Data.Vector as V
 import Control.Monad (void)
+import Test.QuickCheck.Arbitrary (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (maxInteger)
 
 newtype Integer32 = Integer32 {getInteger32 :: Integer}
-  deriving (Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+  deriving (Bits, Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+
+instance Arbitrary Integer32 where
+  arbitrary = maxInteger 32
 
 instance Serialize Integer32 where
   put n | n >= lo && n <= hi = do
