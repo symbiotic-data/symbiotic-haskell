@@ -1,7 +1,7 @@
 module Test.QuickCheck.Arbitrary.Limited where
 
 import Test.QuickCheck.Arbitrary (Arbitrary (arbitrary))
-import Test.QuickCheck.Gen (Gen, resize, listOf, choose)
+import Test.QuickCheck.Gen (Gen, resize, listOf, choose, elements)
 import Data.Bits (Bits)
 import Data.Symbiotic.Primitives.Integral.Integer.Utils (roll)
 import Control.Monad (replicateM)
@@ -24,3 +24,8 @@ maxNatural n = do
   l <- choose (0, n)
   xs <- replicateM l arbitrary
   pure (roll xs)
+
+asciiAtMost :: Int -> Gen String
+asciiAtMost n = do
+  l <- choose (0, n)
+  replicateM l $ elements $ ['a'..'z'] ++ ['A' .. 'Z'] ++ ['0' .. '9']

@@ -11,10 +11,24 @@ import Data.Serialize (Serialize (..))
 import Data.Serialize.Put (putWord16be)
 import Data.Serialize.Get (getWord16be)
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary (..))
 
 
 newtype IPV6 = IPV6 {getIPV6 :: IPv6}
   deriving (Generic, Eq, Ord, Show)
+
+instance Arbitrary IPV6 where
+  arbitrary = IPV6 <$>
+    ( fromWord16s
+      <$> arbitrary
+      <*> arbitrary
+      <*> arbitrary
+      <*> arbitrary
+      <*> arbitrary
+      <*> arbitrary
+      <*> arbitrary
+      <*> arbitrary
+    )
 
 instance ToJSON IPV6 where
   toJSON = String . encode . getIPV6

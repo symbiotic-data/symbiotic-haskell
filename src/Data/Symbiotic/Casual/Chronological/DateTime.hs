@@ -7,7 +7,7 @@
 module Data.Symbiotic.Casual.Chronological.DateTime where
 
 import Data.Symbiotic.Casual.Chronological.Date (Date (..))
-import Data.Symbiotic.Casual.Chronological.Time (Time, makeTime, timeOfDay, timeZone)
+import Data.Symbiotic.Casual.Chronological.Time (makeTime, timeOfDay, timeZone)
 
 import Data.Time (UTCTime (..), timeToTimeOfDay, getTimeZone, LocalTime (..), localTimeToUTC)
 import Data.Aeson (ToJSON (..), FromJSON (..), Value (String))
@@ -16,10 +16,12 @@ import Data.Serialize (Serialize (..))
 import qualified Data.Text as T
 import System.IO.Unsafe (unsafePerformIO)
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary)
+import Test.QuickCheck.Instances ()
 
 
 newtype DateTime = DateTime {getDateTime :: UTCTime}
-  deriving (Generic, Eq, Ord, Show)
+  deriving (Generic, Eq, Ord, Show, Arbitrary)
 
 instance ToJSON DateTime where
   toJSON (DateTime dt@(UTCTime d diff)) =

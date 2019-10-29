@@ -11,10 +11,14 @@ import Data.Serialize (Serialize (..))
 import Data.Serialize.Put (putWord8)
 import Data.Serialize.Get (getWord8)
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary (..))
 
 
 newtype IPV4 = IPV4 {getIPV4 :: IPv4}
   deriving (Generic, Eq, Ord, Show)
+
+instance Arbitrary IPV4 where
+  arbitrary = IPV4 <$> (fromOctets <$> arbitrary <*> arbitrary <*> arbitrary <*> arbitrary)
 
 instance ToJSON IPV4 where
   toJSON = String . encode . getIPV4

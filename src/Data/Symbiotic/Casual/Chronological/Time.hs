@@ -19,6 +19,8 @@ import Data.Int (Int8)
 import Data.Word (Word8)
 import Text.Read (readMaybe)
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Instances ()
 
 
 data Time = Time
@@ -26,6 +28,9 @@ data Time = Time
   , timeZone  :: TimeZone
   }
   deriving (Generic, Eq, Ord, Show)
+
+instance Arbitrary Time where
+  arbitrary = Time <$> arbitrary <*> arbitrary
 
 -- | Haskell makes use of picoseconds, which are of no use to us in this library
 makeTime :: TimeOfDay -> TimeZone -> Time
