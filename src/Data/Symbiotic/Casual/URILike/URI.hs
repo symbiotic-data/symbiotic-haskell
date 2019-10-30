@@ -11,11 +11,30 @@ import Data.Aeson (ToJSON (..), FromJSON (..), Value (String))
 import Data.Aeson.Types (typeMismatch)
 import qualified Data.Text as T
 import Data.Serialize (Serialize (..))
+import Data.List (intercalate)
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Gen (listOf, listOf1)
+import Test.QuickCheck.Arbitrary.Limited (asciiAtMost)
 
 
 newtype URI = URI {getURI :: URI.URI}
   deriving (Generic, Show, Eq, Ord)
+
+instance Arbitrary URI where
+  arbitrary = do
+    scheme <- asciiAtMost 64
+    domain <- asciiAtMost 64
+    branches <- listOf1 (asciiAtMost 64)
+    query <- listOf ((,) <$> asciiAtMost 64 <*> asciiAtMost 64)
+    fragment <- asciiAtMost 64
+    let branches' = foldMap ('/':) branches
+        query' = '?' : intercalate "&" (map (\(k,v) -> k ++ "=" ++ v) query)
+        fragment' = '#' : fragment
+        uri = scheme ++ ":" ++ domain ++ branches' ++ query' ++ fragment'
+    case URI.parseURI uri of
+      Nothing -> error $ "Couldn't parse URI string: " ++ uri
+      Just u -> pure (URI u)
 
 instance ToJSON URI where
   toJSON (URI u) = String $ T.pack $ URI.uriToString id u ""
