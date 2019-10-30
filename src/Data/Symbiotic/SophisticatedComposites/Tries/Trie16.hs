@@ -14,10 +14,21 @@ import Data.Aeson (ToJSON (..), FromJSON (..))
 import Data.Aeson.Types (typeMismatch, Parser, Value)
 import Data.Serialize (Serialize (..))
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (atMost', arbitraryMaybe)
 
 
 newtype Trie16 k a = Trie16 {getTrie16 :: MT.MapTrie k a}
   deriving (Generic, Show, Eq, Ord, Serialize)
+
+instance (Arbitrary k, Arbitrary a, Ord k) => Arbitrary (Trie16 k a) where
+  arbitrary = Trie16 <$> trie
+    where
+      trie = MT.MapTrie <$> step
+      step =
+        let elems = (,) <$> arbitrary <*> children
+        in  MT.MapStep . Map.fromList <$> atMost' ((2 :: Int) ^ (16 :: Int)) elems
+      children = MT.MapChildren <$> arbitrary <*> arbitraryMaybe trie
 
 instance (ToJSON k, ToJSON a) => ToJSON (Trie16 k a) where
   toJSON (Trie16 xs) = trie xs

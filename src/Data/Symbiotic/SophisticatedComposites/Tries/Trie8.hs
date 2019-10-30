@@ -6,6 +6,7 @@
 module Data.Symbiotic.SophisticatedComposites.Tries.Trie8 where
 
 import Data.Symbiotic.SophisticatedComposites.Tries.Trie8.Orphans ()
+import Data.Symbiotic.SophisticatedComposites.Mappings.Map8 (Map8 (..))
 
 import qualified Data.Trie.Map as MT
 import qualified Data.Map as Map
@@ -14,10 +15,21 @@ import Data.Aeson (ToJSON (..), FromJSON (..))
 import Data.Aeson.Types (typeMismatch, Parser, Value)
 import Data.Serialize (Serialize (..))
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (atMost', arbitraryMaybe)
 
 
 newtype Trie8 k a = Trie8 {getTrie8 :: MT.MapTrie k a}
   deriving (Generic, Show, Eq, Ord, Serialize)
+
+instance (Arbitrary k, Arbitrary a, Ord k) => Arbitrary (Trie8 k a) where
+  arbitrary = Trie8 <$> trie
+    where
+      trie = MT.MapTrie <$> step
+      step =
+        let elems = (,) <$> arbitrary <*> children
+        in  MT.MapStep . Map.fromList <$> atMost' ((2 :: Int) ^ (8 :: Int)) elems
+      children = MT.MapChildren <$> arbitrary <*> arbitraryMaybe trie
 
 instance (ToJSON k, ToJSON a) => ToJSON (Trie8 k a) where
   toJSON (Trie8 xs) = trie xs

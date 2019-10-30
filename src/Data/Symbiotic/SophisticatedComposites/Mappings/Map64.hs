@@ -14,10 +14,15 @@ import Data.Aeson (ToJSON (..), FromJSON (..))
 import Data.Serialize (Serialize (..))
 import qualified Data.Vector as V
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (atMost)
 
 
 newtype Map64 k a = Map64 {getMap64 :: Map k a}
   deriving (Generic, Eq, Ord, Show, Semigroup, Monoid, Functor, Foldable, Traversable)
+
+instance (Arbitrary k, Arbitrary a, Ord k) => Arbitrary (Map64 k a) where
+  arbitrary = Map64 . Map.fromList <$> atMost ((2 :: Int) ^ (64 :: Int))
 
 instance (ToJSON k, ToJSON a) => ToJSON (Map64 k a) where
   toJSON (Map64 xs) = case makeVector64 (V.fromList (Map.toList xs)) of

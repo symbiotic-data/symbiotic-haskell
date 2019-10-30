@@ -21,10 +21,15 @@ import Data.Aeson.Types (typeMismatch, Parser)
 import Data.Serialize (Serialize (..))
 import Unsafe.Coerce (unsafeCoerce)
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (atMost)
 
 
 newtype StringMap8 a = StringMap8 {getStringMap8 :: HM.HashMap String8 a}
   deriving (Generic, Eq, Ord, Show, Semigroup, Monoid, Functor, Foldable, Traversable)
+
+instance Arbitrary a => Arbitrary (StringMap8 a) where
+  arbitrary = StringMap8 . HM.fromList <$> atMost ((2 :: Int) ^ (8 :: Int))
 
 instance ToJSON a => ToJSON (StringMap8 a) where
   toJSON (StringMap8 xs) = Object (unsafeCoerce (HM.map toJSON xs))

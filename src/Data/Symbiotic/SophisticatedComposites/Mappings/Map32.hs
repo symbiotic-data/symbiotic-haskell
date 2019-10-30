@@ -14,10 +14,15 @@ import Data.Aeson (ToJSON (..), FromJSON (..))
 import Data.Serialize (Serialize (..))
 import qualified Data.Vector as V
 import GHC.Generics (Generic)
+import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Arbitrary.Limited (atMost)
 
 
 newtype Map32 k a = Map32 {getMap32 :: Map k a}
   deriving (Generic, Eq, Ord, Show, Semigroup, Monoid, Functor, Foldable, Traversable)
+
+instance (Arbitrary k, Arbitrary a, Ord k) => Arbitrary (Map32 k a) where
+  arbitrary = Map32 . Map.fromList <$> atMost ((2 :: Int) ^ (32 :: Int))
 
 instance (ToJSON k, ToJSON a) => ToJSON (Map32 k a) where
   toJSON (Map32 xs) = case makeVector32 (V.fromList (Map.toList xs)) of

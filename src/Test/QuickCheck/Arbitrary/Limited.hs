@@ -8,7 +8,15 @@ import Control.Monad (replicateM)
 
 
 atMost :: Arbitrary a => Int -> Gen [a]
-atMost n = resize n (listOf arbitrary)
+atMost n = atMost' n arbitrary
+
+atMost' :: Int -> Gen a -> Gen [a]
+atMost' n x = resize n (listOf x)
+
+arbitraryMaybe :: Gen a -> Gen (Maybe a)
+arbitraryMaybe x = do
+  m <- arbitrary
+  if m then pure Nothing else Just <$> x
 
 maxInteger :: (Integral a, Bits a) => Int -> Gen a
 maxInteger n = do
