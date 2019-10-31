@@ -6,14 +6,13 @@
 module Data.Symbiotic.SophisticatedComposites.Tries.Trie8 where
 
 import Data.Symbiotic.SophisticatedComposites.Tries.Trie8.Orphans ()
-import Data.Symbiotic.SophisticatedComposites.Mappings.Map8 (Map8 (..))
 
 import qualified Data.Trie.Map as MT
 import qualified Data.Map as Map
 import qualified Data.Vector as V
 import Data.Aeson (ToJSON (..), FromJSON (..))
 import Data.Aeson.Types (typeMismatch, Parser, Value)
-import Data.Serialize (Serialize (..))
+import Data.Serialize (Serialize)
 import GHC.Generics (Generic)
 import Test.QuickCheck (Arbitrary (..))
 import Test.QuickCheck.Arbitrary.Limited (atMost', arbitraryMaybe)
