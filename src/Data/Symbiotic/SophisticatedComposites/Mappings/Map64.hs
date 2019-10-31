@@ -22,7 +22,7 @@ newtype Map64 k a = Map64 {getMap64 :: Map k a}
   deriving (Generic, Eq, Ord, Show, Semigroup, Monoid, Functor, Foldable, Traversable)
 
 instance (Arbitrary k, Arbitrary a, Ord k) => Arbitrary (Map64 k a) where
-  arbitrary = Map64 . Map.fromList <$> atMost ((2 :: Int) ^ (64 :: Int))
+  arbitrary = Map64 . Map.fromList <$> atMost ((2 :: Int) ^ (62 :: Int))
 
 instance (ToJSON k, ToJSON a) => ToJSON (Map64 k a) where
   toJSON (Map64 xs) = case makeVector64 (V.fromList (Map.toList xs)) of

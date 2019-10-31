@@ -29,7 +29,7 @@ newtype StringMap64 a = StringMap64 {getStringMap64 :: HM.HashMap String64 a}
   deriving (Generic, Eq, Ord, Show, Semigroup, Monoid, Functor, Foldable, Traversable)
 
 instance Arbitrary a => Arbitrary (StringMap64 a) where
-  arbitrary = StringMap64 . HM.fromList <$> atMost ((2 :: Int) ^ (64 :: Int))
+  arbitrary = StringMap64 . HM.fromList <$> atMost ((2 :: Int) ^ (62 :: Int))
 
 instance ToJSON a => ToJSON (StringMap64 a) where
   toJSON (StringMap64 xs) = Object (unsafeCoerce (HM.map toJSON xs))

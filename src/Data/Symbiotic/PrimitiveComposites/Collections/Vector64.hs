@@ -26,7 +26,7 @@ newtype Vector64 a = Vector64 {getVector64 :: V.Vector a}
   deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, Functor, Applicative, Alternative, Monad, Foldable, Traversable)
 
 instance Arbitrary a => Arbitrary (Vector64 a) where
-  arbitrary = Vector64 . V.fromList <$> atMost ((2 :: Int) ^ (64 :: Int))
+  arbitrary = Vector64 . V.fromList <$> atMost ((2 :: Int) ^ (62 :: Int))
 
 
 makeVector64 :: V.Vector a -> Maybe (Vector64 a)
@@ -35,7 +35,7 @@ makeVector64 x
   | otherwise = Nothing
   where
     hi :: Int
-    hi = (2 :: Int) ^ (64 :: Int)
+    hi = (2 :: Int) ^ (62 :: Int)
 
 instance (ToJSON a) => ToJSON (Vector64 a) where
   toJSON (Vector64 x) = Array (V.map toJSON x)
