@@ -42,6 +42,7 @@ library:
   generated-exposed-modules:
   - Paths_symbiotic
   exposed-modules:
+    - Data.Symbiotic.Primitives
     - Data.Symbiotic.Primitives.Unit
     - Data.Symbiotic.Primitives.Floating.Float32.BE
     - Data.Symbiotic.Primitives.Floating.Float32.LE
@@ -111,3 +112,8 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - symbiotic
+    - aeson
+    - cereal
+    - QuickCheck
+    - tasty
+    - tasty-quickcheck
