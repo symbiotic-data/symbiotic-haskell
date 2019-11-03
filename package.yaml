@@ -73,11 +73,13 @@ library:
     - Data.Symbiotic.Primitives.UTF8Strings.String16
     - Data.Symbiotic.Primitives.UTF8Strings.String32
     - Data.Symbiotic.Primitives.UTF8Strings.String64
+    - Data.Symbiotic.PrimitiveComposites
     - Data.Symbiotic.PrimitiveComposites.Collections.Vector8
     - Data.Symbiotic.PrimitiveComposites.Collections.Vector16
     - Data.Symbiotic.PrimitiveComposites.Collections.Vector32
     - Data.Symbiotic.PrimitiveComposites.Collections.Vector64
     - Data.Symbiotic.PrimitiveComposites.Either
+    - Data.Symbiotic.SophisticatedComposites
     - Data.Symbiotic.SophisticatedComposites.Mappings.StringMap8
     - Data.Symbiotic.SophisticatedComposites.Mappings.StringMap16
     - Data.Symbiotic.SophisticatedComposites.Mappings.StringMap32

@@ -1,7 +1,7 @@
 module Test.QuickCheck.Arbitrary.Limited where
 
 import Test.QuickCheck.Arbitrary (Arbitrary (arbitrary))
-import Test.QuickCheck.Gen (Gen, resize, listOf, choose, elements)
+import Test.QuickCheck.Gen (Gen, choose, elements, getSize)
 import Data.Bits (Bits)
 import Data.Symbiotic.Primitives.Integral.Integer.Utils (roll)
 import Control.Monad (replicateM)
@@ -11,8 +11,10 @@ atMost :: Arbitrary a => Int -> Gen [a]
 atMost n = atMost' n arbitrary
 
 atMost' :: Int -> Gen a -> Gen [a]
-atMost' n x = do -- resize n (listOf x)
-  l <- choose (0,n-1)
+atMost' n x = do
+  s <- getSize
+  let s' = fromIntegral s / 100
+  l <- choose (0, floor (fromIntegral (n-1) * s'))
   replicateM l x
 
 arbitraryMaybe :: Gen a -> Gen (Maybe a)

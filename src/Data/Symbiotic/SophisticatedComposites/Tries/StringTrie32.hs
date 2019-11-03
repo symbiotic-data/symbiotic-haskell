@@ -16,6 +16,7 @@ import Data.Aeson (ToJSON (..), FromJSON (..), Value (Object))
 import Data.Aeson.Types (typeMismatch, Parser)
 import GHC.Generics (Generic)
 import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Gen (scale)
 import Test.QuickCheck.Arbitrary.Limited (atMost', arbitraryMaybe)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -30,7 +31,7 @@ instance (Arbitrary a) => Arbitrary (StringTrie32 a) where
       step =
         let elems = (,) <$> arbitrary <*> children
         in  HT.HashMapStep . HM.fromList <$> atMost' ((2 :: Int) ^ (8 :: Int)) elems
-      children = HT.HashMapChildren <$> arbitrary <*> arbitraryMaybe trie
+      children = HT.HashMapChildren <$> arbitrary <*> arbitraryMaybe (scale (`div` 4) trie)
 
 instance (ToJSON a) => ToJSON (StringTrie32 a) where
   toJSON (StringTrie32 xs) = trie xs

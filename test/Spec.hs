@@ -7,6 +7,8 @@ import Data.Serialize (Serialize, encode, decode)
 import Data.Typeable (Typeable, typeRep)
 
 import qualified Data.Symbiotic.Primitives as Prim
+import qualified Data.Symbiotic.PrimitiveComposites as PrimCom
+import qualified Data.Symbiotic.SophisticatedComposites as SophCom
 
 
 
@@ -19,7 +21,7 @@ tests = testGroup "All Tests"
     [ testGroup "Primitives"
       [ both (Proxy :: Proxy Prim.Unit)
       , both (Proxy :: Proxy Prim.String8)
-      , both (Proxy :: Proxy Prim.String16)
+      -- , both (Proxy :: Proxy Prim.String16)
       -- , both (Proxy :: Proxy Prim.String32)
       -- , both (Proxy :: Proxy Prim.String64)
       , both (Proxy :: Proxy Prim.Integer8)
@@ -47,6 +49,31 @@ tests = testGroup "All Tests"
       , both (Proxy :: Proxy Prim.Float32LE)
       , both (Proxy :: Proxy Prim.Float64BE)
       , both (Proxy :: Proxy Prim.Float64LE)
+      ]
+    , testGroup "PrimitiveComposites"
+      [ both (Proxy :: Proxy (PrimCom.Either Prim.Unit Prim.Unit))
+      , both (Proxy :: Proxy (PrimCom.Vector8 Prim.Unit))
+      -- , both (Proxy :: Proxy (PrimCom.Vector16 Prim.Unit))
+      -- , both (Proxy :: Proxy (PrimCom.Vector32 Prim.Unit))
+      -- , both (Proxy :: Proxy (PrimCom.Vector64 Prim.Unit))
+      ]
+    , testGroup "SophisticatedComposites"
+      [ both (Proxy :: Proxy (SophCom.Map8 Prim.Unit Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.Map16 Prim.Unit Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.Map32 Prim.Unit Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.Map64 Prim.Unit Prim.Unit))
+      , both (Proxy :: Proxy (SophCom.StringMap8 Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.StringMap16 Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.StringMap32 Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.StringMap64 Prim.Unit))
+      , both (Proxy :: Proxy (SophCom.Trie8 Prim.Unit Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.Trie16 Prim.Unit Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.Trie32 Prim.Unit Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.Trie64 Prim.Unit Prim.Unit))
+      , both (Proxy :: Proxy (SophCom.StringTrie8 Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.StringTrie16 Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.StringTrie32 Prim.Unit))
+      -- , both (Proxy :: Proxy (SophCom.StringTrie64 Prim.Unit))
       ]
     ]
   ]

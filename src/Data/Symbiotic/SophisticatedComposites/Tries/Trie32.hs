@@ -15,6 +15,7 @@ import Data.Aeson.Types (typeMismatch, Parser, Value)
 import Data.Serialize (Serialize (..))
 import GHC.Generics (Generic)
 import Test.QuickCheck (Arbitrary (..))
+import Test.QuickCheck.Gen (scale)
 import Test.QuickCheck.Arbitrary.Limited (atMost', arbitraryMaybe)
 
 
@@ -28,7 +29,7 @@ instance (Arbitrary k, Arbitrary a, Ord k) => Arbitrary (Trie32 k a) where
       step =
         let elems = (,) <$> arbitrary <*> children
         in  MT.MapStep . Map.fromList <$> atMost' ((2 :: Int) ^ (32 :: Int)) elems
-      children = MT.MapChildren <$> arbitrary <*> arbitraryMaybe trie
+      children = MT.MapChildren <$> arbitrary <*> arbitraryMaybe (scale (`div` 4) trie)
 
 instance (ToJSON k, ToJSON a) => ToJSON (Trie32 k a) where
   toJSON (Trie32 xs) = trie xs
