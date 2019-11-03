@@ -5,15 +5,15 @@
 
 module Data.Symbiotic.Primitives.UTF8Strings.String16 where
 
+import Data.Symbiotic.PrimitiveComposites.Collections.Vector16 (makeVector16, getVector16)
+
 import GHC.Generics (Generic)
 import Data.String (IsString (..))
 import Data.Aeson (ToJSON, FromJSON)
 import Data.Hashable (Hashable)
 import Data.Serialize (Serialize (..))
-import Data.Serialize.Put (putWord16be, putByteString)
-import Data.Serialize.Get (getWord16be, getByteString)
 import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
+import qualified Data.Vector as V
 import Test.QuickCheck (Arbitrary (..))
 import Test.QuickCheck.Arbitrary.Limited (atMost)
 
@@ -38,10 +38,9 @@ instance IsString String16 where
     Just v -> v
 
 instance Serialize String16 where
-  put (String16 t) = do
-    putWord16be (fromIntegral (T.length t))
-    putByteString (T.encodeUtf8 t)
+  put (String16 t) = case makeVector16 (V.fromList (T.unpack t)) of
+    Nothing -> error "Vector16 can't be made from String16"
+    Just x -> put x
   get = do
-    l <- getWord16be
-    xs <- getByteString (fromIntegral l)
-    pure (String16 (T.decodeUtf8 xs))
+    xs <- getVector16 <$> get
+    pure (String16 (T.pack (V.toList xs)))

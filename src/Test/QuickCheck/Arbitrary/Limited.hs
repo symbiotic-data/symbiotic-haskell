@@ -11,7 +11,9 @@ atMost :: Arbitrary a => Int -> Gen [a]
 atMost n = atMost' n arbitrary
 
 atMost' :: Int -> Gen a -> Gen [a]
-atMost' n x = resize n (listOf x)
+atMost' n x = do -- resize n (listOf x)
+  l <- choose (0,n-1)
+  replicateM l x
 
 arbitraryMaybe :: Gen a -> Gen (Maybe a)
 arbitraryMaybe x = do

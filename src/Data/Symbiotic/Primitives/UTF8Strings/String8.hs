@@ -5,15 +5,15 @@
 
 module Data.Symbiotic.Primitives.UTF8Strings.String8 where
 
+import Data.Symbiotic.PrimitiveComposites.Collections.Vector8 (makeVector8, getVector8)
+
 import GHC.Generics (Generic)
 import Data.String (IsString (..))
 import Data.Aeson (ToJSON, FromJSON)
 import Data.Hashable (Hashable)
 import Data.Serialize (Serialize (..))
-import Data.Serialize.Put (putWord8, putByteString)
-import Data.Serialize.Get (getWord8, getByteString)
 import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
+import qualified Data.Vector as V
 import Test.QuickCheck (Arbitrary (..))
 import Test.QuickCheck.Arbitrary.Limited (atMost)
 
@@ -34,14 +34,13 @@ makeString8 t
 
 instance IsString String8 where
   fromString s = case makeString8 (T.pack s) of
-    Nothing -> error "Vector8 can't be made from String"
+    Nothing -> error "String8 can't be made from String"
     Just v -> v
 
 instance Serialize String8 where
-  put (String8 t) = do
-    putWord8 (fromIntegral (T.length t))
-    putByteString (T.encodeUtf8 t)
+  put (String8 t) = case makeVector8 (V.fromList (T.unpack t)) of
+    Nothing -> error "Vector8 can't be made from String8"
+    Just x -> put x
   get = do
-    l <- getWord8
-    xs <- getByteString (fromIntegral l)
-    pure (String8 (T.decodeUtf8 xs))
+    xs <- getVector8 <$> get
+    pure (String8 (T.pack (V.toList xs)))

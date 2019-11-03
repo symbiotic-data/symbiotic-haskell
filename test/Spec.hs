@@ -18,8 +18,8 @@ tests = testGroup "All Tests"
   [ testGroup "Local Isomorphisms"
     [ testGroup "Primitives"
       [ both (Proxy :: Proxy Prim.Unit)
-      -- , both (Proxy :: Proxy Prim.String8)
-      -- , both (Proxy :: Proxy Prim.String16)
+      , both (Proxy :: Proxy Prim.String8)
+      , both (Proxy :: Proxy Prim.String16)
       -- , both (Proxy :: Proxy Prim.String32)
       -- , both (Proxy :: Proxy Prim.String64)
       , both (Proxy :: Proxy Prim.Integer8)

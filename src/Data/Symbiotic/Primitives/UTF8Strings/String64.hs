@@ -5,15 +5,15 @@
 
 module Data.Symbiotic.Primitives.UTF8Strings.String64 where
 
+import Data.Symbiotic.PrimitiveComposites.Collections.Vector64 (makeVector64, getVector64)
+
 import GHC.Generics (Generic)
 import Data.String (IsString (..))
 import Data.Aeson (ToJSON, FromJSON)
 import Data.Hashable (Hashable)
 import Data.Serialize (Serialize (..))
-import Data.Serialize.Put (putWord64be, putByteString)
-import Data.Serialize.Get (getWord64be, getByteString)
 import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
+import qualified Data.Vector as V
 import Test.QuickCheck (Arbitrary (..))
 import Test.QuickCheck.Arbitrary.Limited (atMost)
 
@@ -38,10 +38,9 @@ instance IsString String64 where
     Just v -> v
 
 instance Serialize String64 where
-  put (String64 t) = do
-    putWord64be (fromIntegral (T.length t))
-    putByteString (T.encodeUtf8 t)
+  put (String64 t) = case makeVector64 (V.fromList (T.unpack t)) of
+    Nothing -> error "Vector64 can't be made from String64"
+    Just x -> put x
   get = do
-    l <- getWord64be
-    xs <- getByteString (fromIntegral l)
-    pure (String64 (T.decodeUtf8 xs))
+    xs <- getVector64 <$> get
+    pure (String64 (T.pack (V.toList xs)))

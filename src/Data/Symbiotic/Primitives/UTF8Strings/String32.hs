@@ -5,15 +5,15 @@
 
 module Data.Symbiotic.Primitives.UTF8Strings.String32 where
 
+import Data.Symbiotic.PrimitiveComposites.Collections.Vector32 (makeVector32, getVector32)
+
 import GHC.Generics (Generic)
 import Data.String (IsString (..))
 import Data.Aeson (ToJSON, FromJSON)
 import Data.Hashable (Hashable)
 import Data.Serialize (Serialize (..))
-import Data.Serialize.Put (putWord32be, putByteString)
-import Data.Serialize.Get (getWord32be, getByteString)
 import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
+import qualified Data.Vector as V
 import Test.QuickCheck (Arbitrary (..))
 import Test.QuickCheck.Arbitrary.Limited (atMost)
 
@@ -38,10 +38,9 @@ instance IsString String32 where
     Just v -> v
 
 instance Serialize String32 where
-  put (String32 t) = do
-    putWord32be (fromIntegral (T.length t))
-    putByteString (T.encodeUtf8 t)
+  put (String32 t) = case makeVector32 (V.fromList (T.unpack t)) of
+    Nothing -> error "Vector32 can't be made from String32"
+    Just x -> put x
   get = do
-    l <- getWord32be
-    xs <- getByteString (fromIntegral l)
-    pure (String32 (T.decodeUtf8 xs))
+    xs <- getVector32 <$> get
+    pure (String32 (T.pack (V.toList xs)))
