@@ -22,7 +22,7 @@ newtype Map16 k a = Map16 {getMap16 :: Map k a}
   deriving (Generic, Eq, Ord, Show, Semigroup, Monoid, Functor, Foldable, Traversable)
 
 instance (Arbitrary k, Arbitrary a, Ord k) => Arbitrary (Map16 k a) where
-  arbitrary = Map16 . Map.fromList <$> atMost ((2 :: Int) ^ (16 :: Int))
+  arbitrary = Map16 . Map.fromList <$> atMost ((2 :: Int) ^ (10 :: Int))
 
 instance (ToJSON k, ToJSON a) => ToJSON (Map16 k a) where
   toJSON (Map16 xs) = case makeVector16 (V.fromList (Map.toList xs)) of

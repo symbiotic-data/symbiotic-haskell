@@ -28,7 +28,7 @@ instance (Arbitrary k, Arbitrary a, Ord k) => Arbitrary (Trie16 k a) where
       trie = MT.MapTrie <$> step
       step =
         let elems = (,) <$> arbitrary <*> children
-        in  MT.MapStep . Map.fromList <$> atMost' ((2 :: Int) ^ (16 :: Int)) elems
+        in  MT.MapStep . Map.fromList <$> atMost' ((2 :: Int) ^ (8 :: Int)) elems
       children = MT.MapChildren <$> arbitrary <*> arbitraryMaybe (scale (`div` 4) trie)
 
 instance (ToJSON k, ToJSON a) => ToJSON (Trie16 k a) where

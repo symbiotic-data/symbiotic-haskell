@@ -22,7 +22,7 @@ newtype String64 = String64 {getString64 :: T.Text}
   deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, ToJSON, FromJSON, Hashable)
 
 instance Arbitrary String64 where
-  arbitrary = String64 . T.pack <$> atMost ((2 :: Int) ^ (62 :: Int))
+  arbitrary = String64 . T.pack <$> atMost ((2 :: Int) ^ (8 :: Int))
 
 makeString64 :: T.Text -> Maybe String64
 makeString64 t

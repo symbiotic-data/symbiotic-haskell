@@ -2,7 +2,6 @@
     DeriveGeneric
   , GeneralizedNewtypeDeriving
   , DeriveTraversable
-  , RankNTypes
   , InstanceSigs
   , ScopedTypeVariables
   #-}
@@ -16,7 +15,7 @@ import qualified Data.HashMap.Lazy as HM
 import qualified Data.Text as T
 import qualified Data.Vector as V
 import Data.Traversable (Traversable, traverse)
-import Data.Aeson (ToJSON (..), FromJSON (..), fromJSON, Value (Object), Result (..))
+import Data.Aeson (ToJSON (..), FromJSON (..), Value (Object))
 import Data.Aeson.Types (typeMismatch, Parser)
 import Data.Serialize (Serialize (..))
 import Unsafe.Coerce (unsafeCoerce)
@@ -29,13 +28,13 @@ newtype StringMap16 a = StringMap16 {getStringMap16 :: HM.HashMap String16 a}
   deriving (Generic, Eq, Ord, Show, Semigroup, Monoid, Functor, Foldable, Traversable)
 
 instance Arbitrary a => Arbitrary (StringMap16 a) where
-  arbitrary = StringMap16 . HM.fromList <$> atMost ((2 :: Int) ^ (16 :: Int))
+  arbitrary = StringMap16 . HM.fromList <$> atMost ((2 :: Int) ^ (10 :: Int))
 
 instance ToJSON a => ToJSON (StringMap16 a) where
   toJSON (StringMap16 xs) = Object (unsafeCoerce (HM.map toJSON xs))
 
 instance FromJSON a => FromJSON (StringMap16 a) where
-  parseJSON :: forall a. FromJSON a => Value -> Parser (StringMap16 a)
+  parseJSON :: Value -> Parser (StringMap16 a)
   parseJSON json = case json of
     Object o -> do
       xs <- traverse parseJSON o :: Parser (HM.HashMap T.Text a)

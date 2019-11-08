@@ -9,7 +9,7 @@ module Data.Symbiotic.PrimitiveComposites.Collections.Vector32
   ) where
 
 import GHC.Generics (Generic)
-import Data.Aeson (ToJSON (..), FromJSON (..), Value (Array), fromJSON, Result (Error, Success))
+import Data.Aeson (ToJSON (..), FromJSON (..), Value (Array))
 import Data.Aeson.Types (typeMismatch)
 import qualified Data.Vector as V
 import Data.Serialize (Serialize (..))
@@ -26,7 +26,7 @@ newtype Vector32 a = Vector32 {getVector32 :: V.Vector a}
   deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, Functor, Applicative, Alternative, Monad, Foldable, Traversable)
 
 instance Arbitrary a => Arbitrary (Vector32 a) where
-  arbitrary = Vector32 . V.fromList <$> atMost ((2 :: Int) ^ (32 :: Int))
+  arbitrary = Vector32 . V.fromList <$> atMost ((2 :: Int) ^ (10 :: Int))
 
 
 makeVector32 :: V.Vector a -> Maybe (Vector32 a)
