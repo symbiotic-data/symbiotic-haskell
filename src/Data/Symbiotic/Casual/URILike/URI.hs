@@ -15,7 +15,7 @@ import Data.List (intercalate)
 import GHC.Generics (Generic)
 import Test.QuickCheck (Arbitrary (..))
 import Test.QuickCheck.Gen (listOf, listOf1)
-import Test.QuickCheck.Arbitrary.Limited (asciiAtMost)
+import Test.QuickCheck.Arbitrary.Limited (asciiAtMost, asciiLowerAtMost)
 
 
 newtype URI = URI {getURI :: URI.URI}
@@ -23,15 +23,15 @@ newtype URI = URI {getURI :: URI.URI}
 
 instance Arbitrary URI where
   arbitrary = do
-    scheme <- asciiAtMost 64
-    domain <- asciiAtMost 64
-    branches <- listOf1 (asciiAtMost 64)
-    query <- listOf ((,) <$> asciiAtMost 64 <*> asciiAtMost 64)
-    fragment <- asciiAtMost 64
+    scheme <- asciiLowerAtMost 16
+    domain <- asciiLowerAtMost 16
+    branches <- listOf1 (asciiAtMost 16)
+    query <- listOf1 ((,) <$> asciiAtMost 8 <*> asciiAtMost 8)
+    fragment <- asciiAtMost 16
     let branches' = foldMap ('/':) branches
         query' = '?' : intercalate "&" (map (\(k,v) -> k ++ "=" ++ v) query)
         fragment' = '#' : fragment
-        uri = scheme ++ ":" ++ domain ++ branches' ++ query' ++ fragment'
+        uri = scheme ++ ":" ++ domain ++ ".com" ++ branches' ++ query' ++ fragment'
     case URI.parseURI uri of
       Nothing -> error $ "Couldn't parse URI string: " ++ uri
       Just u -> pure (URI u)

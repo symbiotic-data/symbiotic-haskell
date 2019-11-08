@@ -39,5 +39,10 @@ maxNatural n = do
 
 asciiAtMost :: Int -> Gen String
 asciiAtMost n = do
-  l <- choose (0, n)
+  l <- choose (1, n)
   replicateM l $ elements $ ['a'..'z'] ++ ['A' .. 'Z'] ++ ['0' .. '9']
+
+asciiLowerAtMost :: Int -> Gen String
+asciiLowerAtMost n = do
+  l <- choose (1, n)
+  replicateM l $ elements ['a'..'z']

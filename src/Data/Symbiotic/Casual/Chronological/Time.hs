@@ -48,19 +48,20 @@ instance ToJSON Time where
   toJSON (Time timeOfDay'@(TimeOfDay _ _ (MkFixed pico)) timeZone') = String $
     let t = T.pack (formatTime defaultTimeLocale "%H%M" timeOfDay')
         tz = T.pack (formatTime defaultTimeLocale "%z" timeZone')
-        mili :: Integer
-        mili = pico `div` 1000000000
-        mili' :: Float
+        mili' :: Double
         mili' = fromIntegral mili / 1000
-        pre0Mili
-          | mili < 10 = "0" ++ show mili'
-          | otherwise = show mili'
+          where
+            mili :: Integer
+            mili = pico `div` 1000000000
         shownMili
           | miliLen == 2 = pre0Mili ++ ".000"
           | miliLen < 6 = pre0Mili ++ replicate (6 - miliLen) '0'
           | otherwise = take 6 pre0Mili
           where
             miliLen = length pre0Mili
+            pre0Mili
+              | mili' < 10 = '0':show mili'
+              | otherwise = show mili'
     in  t <> T.pack shownMili <> tz
 
 instance FromJSON Time where
@@ -75,7 +76,7 @@ instance FromJSON Time where
       let tzString = T.unpack (T.drop 10 s)
       tz <- parseTimeM True defaultTimeLocale "%z" tzString
       let mili' :: Integer
-          mili' = floor (mili * 1000)
+          mili' = round (mili * 1000)
       let timeOfDay' = t {todSec = MkFixed (mili' * 1000000000)}
       pure (Time timeOfDay' tz)
     _ -> fail'

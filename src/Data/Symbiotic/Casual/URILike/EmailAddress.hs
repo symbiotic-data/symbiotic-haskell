@@ -20,16 +20,16 @@ newtype EmailAddress = EmailAddress {getEmailAddress :: EA.EmailAddress}
 
 instance Arbitrary EmailAddress where
   arbitrary = do
-    name <- asciiAtMost 64
-    host <- asciiAtMost 64
-    dom <- asciiAtMost 64
+    name <- asciiAtMost 32
+    host <- asciiAtMost 32
+    dom <- asciiAtMost 32
     case EA.validateFromString (name ++ "@" ++ host ++ "." ++ dom) of
       Left e -> fail e
       Right x -> pure (EmailAddress x)
 
 instance Serialize EmailAddress where
   put (EmailAddress e) = case makeString16 (EA.toText e) of
-    Nothing -> error "Vector16 can't be made from EmailAddress string"
+    Nothing -> error "String16 can't be made from EmailAddress string"
     Just x -> put x
   get = do
     s <- getString16 <$> get
