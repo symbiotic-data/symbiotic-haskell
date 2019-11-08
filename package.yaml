@@ -96,6 +96,7 @@ library:
     - Data.Symbiotic.SophisticatedComposites.Tries.StringTrie16
     - Data.Symbiotic.SophisticatedComposites.Tries.StringTrie32
     - Data.Symbiotic.SophisticatedComposites.Tries.StringTrie64
+    - Data.Symbiotic.Casual
     - Data.Symbiotic.Casual.Chronological.Date
     - Data.Symbiotic.Casual.Chronological.Time
     - Data.Symbiotic.Casual.Chronological.DateTime

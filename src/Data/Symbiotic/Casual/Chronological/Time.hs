@@ -17,7 +17,7 @@ import qualified Data.Text as T
 import Data.Fixed (Fixed (..))
 import Data.Int (Int8)
 import Data.Word (Word8)
-import Text.Read (readMaybe)
+import Text.Read (Read, readMaybe)
 import GHC.Generics (Generic)
 import Test.QuickCheck (Arbitrary (..))
 import Test.QuickCheck.Instances ()
@@ -27,10 +27,15 @@ data Time = Time
   { timeOfDay :: TimeOfDay
   , timeZone  :: TimeZone
   }
-  deriving (Generic, Eq, Ord, Show)
+  deriving (Generic, Eq, Ord, Show, Read)
 
 instance Arbitrary Time where
-  arbitrary = Time <$> arbitrary <*> arbitrary
+  arbitrary = Time <$> (fixTime <$> arbitrary) <*> (emptyTimeZone <$> arbitrary)
+    where
+      emptyTimeZone (TimeZone t _ _) = TimeZone t False ""
+      fixTime (TimeOfDay hour minute (MkFixed pico)) = TimeOfDay hour minute (MkFixed unMili)
+        where
+          unMili = (pico `div` 1000000000) * 1000000000
 
 -- | Haskell makes use of picoseconds, which are of no use to us in this library
 makeTime :: TimeOfDay -> TimeZone -> Time
@@ -52,7 +57,7 @@ instance ToJSON Time where
           | otherwise = show mili'
         shownMili
           | miliLen == 2 = pre0Mili ++ ".000"
-          | miliLen < 6 = pre0Mili ++ "." ++ replicate (5 - miliLen) '0'
+          | miliLen < 6 = pre0Mili ++ replicate (6 - miliLen) '0'
           | otherwise = take 6 pre0Mili
           where
             miliLen = length pre0Mili
@@ -66,7 +71,7 @@ instance FromJSON Time where
       let miliString = T.unpack (T.take 6 (T.drop 4 s))
       mili <- case readMaybe miliString of
         Nothing -> fail'
-        Just m' -> pure (m' :: Float)
+        Just m' -> pure (m' :: Double)
       let tzString = T.unpack (T.drop 10 s)
       tz <- parseTimeM True defaultTimeLocale "%z" tzString
       let mili' :: Integer

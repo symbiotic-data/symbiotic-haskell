@@ -18,10 +18,11 @@ import System.IO.Unsafe (unsafePerformIO)
 import GHC.Generics (Generic)
 import Test.QuickCheck (Arbitrary)
 import Test.QuickCheck.Instances ()
+import Text.Read (Read)
 
 
 newtype DateTime = DateTime {getDateTime :: UTCTime}
-  deriving (Generic, Eq, Ord, Show, Arbitrary)
+  deriving (Generic, Eq, Ord, Show, Read, Arbitrary)
 
 instance ToJSON DateTime where
   toJSON (DateTime dt@(UTCTime d diff)) =

@@ -18,10 +18,11 @@ import Data.Word (Word8)
 import GHC.Generics (Generic)
 import Test.QuickCheck (Arbitrary)
 import Test.QuickCheck.Instances ()
+import Text.Read (Read)
 
 
 newtype Date = Date {getDate :: Day}
-  deriving (Generic, Eq, Ord, Show, Arbitrary)
+  deriving (Generic, Eq, Ord, Show, Read, Arbitrary)
 
 instance ToJSON Date where
   toJSON (Date d) = String $ T.pack $ formatTime defaultTimeLocale "%0Y%m%d" d

@@ -9,6 +9,7 @@ import Data.Typeable (Typeable, typeRep)
 import qualified Data.Symbiotic.Primitives as Prim
 import qualified Data.Symbiotic.PrimitiveComposites as PrimCom
 import qualified Data.Symbiotic.SophisticatedComposites as SophCom
+import qualified Data.Symbiotic.Casual as Casual
 
 
 
@@ -74,6 +75,15 @@ tests = testGroup "All Tests"
       -- , both (Proxy :: Proxy (SophCom.StringTrie16 Prim.Unit))
       -- , both (Proxy :: Proxy (SophCom.StringTrie32 Prim.Unit))
       -- , both (Proxy :: Proxy (SophCom.StringTrie64 Prim.Unit))
+      ]
+    , testGroup "Casual"
+      [ both (Proxy :: Proxy Casual.Date)
+      , both (Proxy :: Proxy Casual.Time)
+      , both (Proxy :: Proxy Casual.DateTime)
+      , both (Proxy :: Proxy Casual.IPV4)
+      , both (Proxy :: Proxy Casual.IPV6)
+      , both (Proxy :: Proxy Casual.URI)
+      , both (Proxy :: Proxy Casual.EmailAddress)
       ]
     ]
   ]
