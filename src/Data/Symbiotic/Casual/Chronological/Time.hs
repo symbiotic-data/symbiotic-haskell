@@ -21,6 +21,7 @@ import Text.Read (Read, readMaybe)
 import GHC.Generics (Generic)
 import Test.QuickCheck (Arbitrary (..))
 import Test.QuickCheck.Instances ()
+import Text.Printf (printf)
 
 
 data Time = Time
@@ -60,8 +61,10 @@ instance ToJSON Time where
           where
             miliLen = length pre0Mili
             pre0Mili
-              | mili' < 10 = '0':show mili'
-              | otherwise = show mili'
+              | mili' < 10 = '0':shown
+              | otherwise = shown
+              where
+                shown = printf "%f" mili'
     in  t <> T.pack shownMili <> tz
 
 instance FromJSON Time where

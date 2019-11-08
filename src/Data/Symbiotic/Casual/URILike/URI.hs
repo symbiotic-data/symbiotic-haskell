@@ -14,7 +14,7 @@ import Data.Serialize (Serialize (..))
 import Data.List (intercalate)
 import GHC.Generics (Generic)
 import Test.QuickCheck (Arbitrary (..))
-import Test.QuickCheck.Gen (listOf, listOf1)
+import Test.QuickCheck.Gen (listOf1)
 import Test.QuickCheck.Arbitrary.Limited (asciiAtMost, asciiLowerAtMost)
 
 

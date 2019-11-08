@@ -4,7 +4,9 @@
   , OverloadedStrings
   #-}
 
-module Data.Symbiotic.Casual.Chronological.DateTime where
+module Data.Symbiotic.Casual.Chronological.DateTime
+  ( DateTime, getDateTime, makeDateTime
+  ) where
 
 import Data.Symbiotic.Casual.Chronological.Date (Date (..))
 import Data.Symbiotic.Casual.Chronological.Time (makeTime, timeOfDay, timeZone)
@@ -25,12 +27,15 @@ import Text.Read (Read)
 newtype DateTime = DateTime {getDateTime :: UTCTime}
   deriving (Generic, Eq, Ord, Show, Read)
 
+makeDateTime :: UTCTime -> DateTime
+makeDateTime (UTCTime d s) = DateTime (UTCTime d (fixTime s))
+  where
+    fixTime = picosecondsToDiffTime . unMili . diffTimeToPicoseconds
+      where
+        unMili pico = (pico `div` 1000000000) * 1000000000
+
 instance Arbitrary DateTime where
-  arbitrary = DateTime <$> (UTCTime <$> arbitrary <*> (fixTime <$> arbitrary))
-    where
-      fixTime = picosecondsToDiffTime . unMili . diffTimeToPicoseconds
-        where
-          unMili pico = (pico `div` 1000000000) * 1000000000
+  arbitrary = makeDateTime <$> arbitrary
 
 instance ToJSON DateTime where
   toJSON (DateTime (UTCTime d diff)) =
