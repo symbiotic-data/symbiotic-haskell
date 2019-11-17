@@ -1,5 +1,7 @@
 # symbiotic-haskell
 
+[![Build Status](https://travis-ci.org/symbiotic-data/symbiotic-haskell.svg?branch=master)](https://travis-ci.org/symbiotic-data/symbiotic-haskell)
+
 An implementation of the [Symbiotic Data Standard](https://symbiotic-data.github.io/#/data/) for
 interoperable serialization implementations, for various data types and platforms.
 
