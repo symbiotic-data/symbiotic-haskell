@@ -60,7 +60,7 @@ universal, interoperable data serialization, for various data types and platform
   - Big-Endian - `Data.Symbiotic.Primitives.Floating.Float64.BE`
   - Little-Endian - `Data.Symbiotic.Primitives.Floating.Float64.LE`
 - Scientific - `Data.Symbiotic.Primitives.Floating.Scientific`
-- Ratio - _builtin `Data.Ratio.Ratio`_
+- Ratio - `Data.Symbiotic.Primitives.Floating.Ratio`
 
 #### UTF-8 Strings
 

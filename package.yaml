@@ -49,6 +49,7 @@ library:
     - Data.Symbiotic.Primitives.Floating.Float64.BE
     - Data.Symbiotic.Primitives.Floating.Float64.LE
     - Data.Symbiotic.Primitives.Floating.Scientific
+    - Data.Symbiotic.Primitives.Floating.Ratio
     - Data.Symbiotic.Primitives.Integral.Int16.BE
     - Data.Symbiotic.Primitives.Integral.Int16.LE
     - Data.Symbiotic.Primitives.Integral.Int32.BE

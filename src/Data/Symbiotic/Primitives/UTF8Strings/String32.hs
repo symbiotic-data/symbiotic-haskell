@@ -22,7 +22,7 @@ newtype String32 = String32 {getString32 :: T.Text}
   deriving (Generic, Show, Eq, Ord, Semigroup, Monoid, ToJSON, FromJSON, Hashable)
 
 instance Arbitrary String32 where
-  arbitrary = String32 . T.pack <$> atMost ((2 :: Int) ^ (10 :: Int))
+  arbitrary = String32 . T.pack <$> atMost ((2 :: Int) ^ (8 :: Int))
 
 makeString32 :: T.Text -> Maybe String32
 makeString32 t

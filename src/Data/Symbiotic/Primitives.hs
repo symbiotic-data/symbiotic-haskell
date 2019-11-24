@@ -25,6 +25,7 @@ module Data.Symbiotic.Primitives
   , module Uint64BE
   , module Uint64LE
   , module Scientific
+  , module Ratio
   , module Float32BE
   , module Float32LE
   , module Float64BE
@@ -56,8 +57,9 @@ import Data.Symbiotic.Primitives.Integral.Uint32.BE as  Uint32BE
 import Data.Symbiotic.Primitives.Integral.Uint32.LE as  Uint32LE
 import Data.Symbiotic.Primitives.Integral.Uint64.BE as  Uint64BE
 import Data.Symbiotic.Primitives.Integral.Uint64.LE as  Uint64LE
-import Data.Symbiotic.Primitives.Floating.Scientific as Scientific
 import Data.Symbiotic.Primitives.Floating.Float32.BE as Float32BE
 import Data.Symbiotic.Primitives.Floating.Float32.LE as Float32LE
 import Data.Symbiotic.Primitives.Floating.Float64.BE as Float64BE
 import Data.Symbiotic.Primitives.Floating.Float64.LE as Float64LE
+import Data.Symbiotic.Primitives.Floating.Scientific as Scientific
+import Data.Symbiotic.Primitives.Floating.Ratio as Ratio
