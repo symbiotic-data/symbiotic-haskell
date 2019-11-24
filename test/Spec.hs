@@ -46,7 +46,7 @@ tests = testGroup "All Tests"
       , both (Proxy :: Proxy Prim.Uint64BE)
       , both (Proxy :: Proxy Prim.Uint64LE)
       , both (Proxy :: Proxy Prim.Scientific)
-      , both (Proxy :: Proxy Prim.Ratio)
+      , both (Proxy :: Proxy (Prim.Ratio Prim.Int64BE))
       , both (Proxy :: Proxy Prim.Float32BE)
       , both (Proxy :: Proxy Prim.Float32LE)
       , both (Proxy :: Proxy Prim.Float64BE)
