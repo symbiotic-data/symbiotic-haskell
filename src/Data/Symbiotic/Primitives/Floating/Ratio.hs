@@ -13,7 +13,7 @@ import Test.QuickCheck (Arbitrary)
 
 
 newtype Ratio a = Ratio (R.Ratio a)
-  deriving (Arbitrary, Eq, Ord, Generic, Enum, Real, Fractional, Num, Serialize)
+  deriving (Arbitrary, Eq, Ord, Show, Generic, Enum, Real, Fractional, Num, Serialize)
 
 instance ToJSON a => ToJSON (Ratio a) where
   toJSON (Ratio x) = toJSON (R.numerator x, R.denominator x)
