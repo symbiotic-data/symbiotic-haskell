@@ -14,17 +14,32 @@ import GHC.Generics (Generic)
 import Data.Bits (Bits)
 import Data.Int (Int32)
 import Data.Word (Word16, Word8)
-import Data.Aeson (ToJSON, FromJSON)
+import Data.Aeson (ToJSON (..), FromJSON (..), Value (String))
+import Data.Aeson.Types (typeMismatch)
 import Data.Serialize (Serialize (..))
-import Data.Serialize.Get (Get, getWord16be, getWord8)
+import Data.Serialize.Get (Get, getWord8)
 import Data.Serialize.Put (putWord16be, putWord8)
 import qualified Data.Vector as V
+import qualified Data.Text as T
+import Text.Read (readMaybe)
 import Control.Monad (void)
 import Test.QuickCheck.Arbitrary (Arbitrary (..))
 import Test.QuickCheck.Arbitrary.Limited (maxInteger)
 
 newtype Integer16 = Integer16 {getInteger16 :: Integer}
-  deriving (Bits, Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord, ToJSON, FromJSON)
+  deriving (Bits, Enum, Real, Integral, Num, Generic, Eq, Show, Read, Ord)
+
+instance ToJSON Integer16 where
+  toJSON x = String (T.pack (show x))
+
+instance FromJSON Integer16 where
+  parseJSON json = case json of
+    String s -> case readMaybe (T.unpack s) of
+      Nothing -> fail'
+      Just x -> pure x
+    _ -> fail'
+    where
+      fail' = typeMismatch "Integer16" json
 
 instance Arbitrary Integer16 where
   arbitrary = maxInteger 16
