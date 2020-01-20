@@ -121,3 +121,16 @@ tests:
     - QuickCheck
     - tasty
     - tasty-quickcheck
+
+executables:
+  symbiotic-server:
+    main:                Main.hs
+    source-dirs:         server
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - symbiotic
+    - symbiote >= 0.0.3
+    - optparse-applicative

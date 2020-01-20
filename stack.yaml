@@ -41,6 +41,12 @@ extra-deps:
   - tries-0.0.6
   - rose-trees-0.0.4.4
   - sets-0.0.6.2
+  - symbiote-0.0.3
+  - abides-0.0.1
+  - threaded-0.0.0
+  - websockets-simple-0.2.0
+  - websockets-simple-extra-0.0.0
+  - zeromq4-simple-0.0.0.2
 # - acme-missiles-0.3
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
