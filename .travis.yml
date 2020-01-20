@@ -12,6 +12,26 @@ matrix:
   - ghc: 8.6.5
     env: STACK_YAML="$TRAVIS_BUILD_DIR/stack.yaml"
 
+before_install:
+  - sudo apt-get update -y
+  - sudo apt-get install libpgm-dev make build-essential pkg-config libtool automake -y
+  - wget https://github.com/jedisct1/libsodium/releases/download/1.0.18-RELEASE/libsodium-1.0.18.tar.gz
+  - tar -xvf libsodium-1.0.18.tar.gz
+  - cd libsodium-1.0.18/
+  - ./autogen.sh
+  - ./configure && make
+  - sudo make install
+  - sudo ldconfig
+  - cd ..
+  - wget https://github.com/zeromq/libzmq/releases/download/v4.3.2/zeromq-4.3.2.tar.gz
+  - tar -xvf zeromq-4.3.2.tar.gz
+  - cd zeromq-4.3.2/
+  - ./autogen.sh
+  - ./configure --with-libsodium && make
+  - sudo make install
+  - sudo ldconfig
+  - cd ..
+
 install:
   - |
     curl -sSL https://get.haskellstack.org/ | sh
