@@ -116,6 +116,7 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - symbiotic
+    - abides >= 0.0.1
     - aeson
     - cereal
     - QuickCheck

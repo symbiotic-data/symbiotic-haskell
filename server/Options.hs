@@ -33,4 +33,4 @@ data Ports = Ports
 appOpts :: ParserInfo Ports
 appOpts = info ((Ports <$> websocketPort <*> zeromqPort) <**> helper) $
   fullDesc
-    <> progDesc "symbiote-server - symbiote implementation for the symbiotic-data standard."
+    <> progDesc "symbiote server implementation for the symbiotic-data standard."

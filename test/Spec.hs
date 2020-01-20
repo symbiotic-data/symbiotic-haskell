@@ -1,5 +1,7 @@
 import Test.Tasty (defaultMain, testGroup, TestTree)
 import Test.Tasty.QuickCheck (testProperty)
+import qualified Test.Abides.Data.Eq as Eq
+import qualified Test.Abides.Data.Ord as Ord
 import Test.QuickCheck (Arbitrary)
 import Data.Proxy (Proxy (..))
 import Data.Aeson (FromJSON, ToJSON (..), fromJSON)
@@ -87,6 +89,11 @@ tests = testGroup "All Tests"
       , both (Proxy :: Proxy Casual.EmailAddress)
       ]
     ]
+  , testGroup "Local Properties"
+    [ testGroup "Primitives"
+      [ testProperty "Unit" (abidesOrd (Proxy :: Proxy Prim.Unit))
+      ]
+    ]
   ]
 
 both :: Arbitrary a
@@ -107,3 +114,9 @@ jsonIso Proxy x = fromJSON (toJSON x) == pure x
 
 binaryIso :: Eq a => Serialize a => Proxy a -> a -> Bool
 binaryIso Proxy x = decode (encode x) == pure x
+
+abidesEq :: Eq a => Proxy a -> a -> a -> a -> Bool
+abidesEq Proxy x y z = Eq.reflexive x && Eq.symmetry x y && Eq.transitive x y z && Eq.negation x y
+
+abidesOrd :: Ord a => Proxy a -> a -> a -> a -> Bool
+abidesOrd a x y z = abidesEq a x y z && Ord.reflexive x && Ord.antisymmetry x y && Ord.transitive x y z
