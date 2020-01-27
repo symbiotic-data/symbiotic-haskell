@@ -134,4 +134,9 @@ executables:
     dependencies:
     - symbiotic
     - symbiote >= 0.0.3
+    - aeson
+    - aeson-pretty
+    - bytestring
     - optparse-applicative
+    - text
+    - zeromq4-haskell
